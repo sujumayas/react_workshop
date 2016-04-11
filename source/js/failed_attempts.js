@@ -13,7 +13,7 @@ var FailedAttempts = React.createClass({
     }else {
       message = "How did you manage to fail a negative number of times?";
     }
-    return <span>{message}</span>; 
+    return <span className="failed-attempts">{message}</span>; 
   }
   
 });

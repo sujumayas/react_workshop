@@ -11,7 +11,7 @@ var InstallNode = React.createClass({
       message = "Try to Install Node";
     }
 
-    return <button onClick={this.props.onClick} failed={this.props.failed}>{message}</button>;
+    return <button className="install-node"  onClick={this.props.onClick} failed={this.props.failed}>{message}</button>;
   }
 });
 

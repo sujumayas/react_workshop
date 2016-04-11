@@ -11,7 +11,7 @@
     "imagemin": "mkdir -p dist/img && imagemin source/img dist/img -p",
     "icons": "svgo -f source/sprite && mkdir -p dist/img && svg-sprite-generate -d source/sprite -o dist/img/icons.svg",
     "serve": "browser-sync start --server --files 'dist/css/*.css, dist/js/*.js'",
-    "bundle": "mkdir -p dist && browserify -t [ babelify --presets [ react ] ] source/js/index.js -o dist/js/bundle.js",
+    "bundle": "mkdir -p dist/js && browserify -t [ babelify --presets [ react ] ] source/js/index.js -o dist/js/bundle.js",
     "build:css": "npm run scss && npm run autoprefixer",
     "build:js": "npm run uglify",
     "build:images": "npm run imagemin && npm run icons",

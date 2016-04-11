@@ -2,11 +2,19 @@ var React = require('react');
 
 var HelloComponent = React.createClass({
   render : function(){
+  	console.log(this);
+  	var tempUrl = this.props.url ? this.props.url : "https://uploads.teamtreehouse.com/production/profile-photos/303862/thumb_foto_perfil.jpg";
     return (
-      <div className={"user-"+this.props.name}>
-        <span>Hola {this.props.name}</span>
-        <img src={this.props.url} />
-        <span>You have failed {this.props.fails}</span>
+	      <div 
+		      data-id={this.props.theKey} 
+		      key={this.props.theKey}
+		      draggable={this.props.draggable} 
+		      onDragEnd={this.props.onDragEnd}
+		      onDragStart={this.props.onDragStart} 
+		      className={"user-component user-"+this.props.name}
+	      >
+        <img className="user-image" src={tempUrl} />
+        <span className="user-hello">Hola {this.props.name}</span>
       </div>
       );
   }
