@@ -1,0 +1,7 @@
+.container{
+	@include container;
+}
+
+section.container{
+	margin-bottom: 80px;
+}

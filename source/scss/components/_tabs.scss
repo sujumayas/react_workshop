@@ -1,0 +1,79 @@
+.tab-component{
+	.tabs{
+		display: none;
+		@include bp(min, $tablet-max+1){
+			display: block;
+		}
+	}
+	
+	.tab-title{
+		display: inline-block;
+		vertical-align: bottom;
+	  list-style: none;
+	  margin-bottom: 0 !important;
+	  position: relative;
+		text-transform: capitalize;
+		padding: 20px 30px;
+		border-right: 1px solid $primary-text;
+		border-top: 1px solid $primary-text;
+		border-left: 1px solid $primary-text;
+		cursor: pointer;
+		color: $primary-text;
+		text-decoration: none;
+
+		@include bp(max, $tablet-max){
+			border-bottom: 1px solid #727272;
+			margin-top: -1px;
+		}
+
+		&:not(li){
+			display: block;
+			@include bp(min, $tablet-max+1){
+				display: none;
+			}
+		}
+
+			&:hover{
+				color: $primary-red;
+			}
+		
+
+		&:not(:first-child){
+			// border-left: 1px solid $primary-text;
+			margin-left: -1px;
+		}
+
+		&.active {
+			color: $primary-red;
+		}
+		&.active:not(div) {
+			padding: 30px;
+		}
+
+		
+	}
+
+	.tabs-content{
+		margin-bottom: gutter();
+		width: 100%;
+		display: block;
+		@include bp(min, $tablet-max+1){
+			border: 1px solid $primary-text;
+			padding: 30px 40px;
+		}
+		.content{
+			width: 100%;
+			display: none;
+			@include bp(max, $tablet-max){
+				padding: 20px;
+    		border: solid 1px grey;
+    		margin-top: -1px;
+  		}
+
+		}
+
+		.content.active{
+			display: block;
+		}
+	}
+}
