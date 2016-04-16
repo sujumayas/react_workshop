@@ -1,102 +1,83 @@
 var React = require('react'),
-  ReactDOM = require('react-dom'),
-  HelloComponent = require('./hello_component'),
-  FailedAttempts = require('./failed_attempts'),
-  InstallNode = require('./install_node'),
-  FallenHeroGallery = require('./fallen_heroes');
+  ReactDOM = require('react-dom');
 
-var data = [
-  {
-    name: "Esen",
-    url: "https://uploads.teamtreehouse.com/production/profile-photos/303862/thumb_foto_perfil.jpg",
-    fails: 32,
-  },
-  {
-    name: "Renato",
-    url: "https://lh3.googleusercontent.com/-dKptqK6grGw/AAAAAAAAAAI/AAAAAAAAAFU/HbgySmtgZ3c/s120-c/photo.jpg",
-    fails: 7,
-  },
-  {
-    name: "Martin",
-    url: "https://pbs.twimg.com/profile_images/344513261576229009/a6f23617e6ed0a6f4fff389a29bacf89.png",
-    fails: 13,
-  }
-];
+//TAREA: 
+// Utilizar refs para aplicar biblioteca o librería de Jquery. 
+// Siguiente clase: proptypes & Testing
+// 
 
-var BundleComponent = React.createClass({
-  getInitialState: function() {
-    return { 
-      failed: false, 
-      fails: 0, 
-      mousePos: {
-        x:0, 
-        y:0
-      }
-    };
+var Lifecycle = React.createClass({
+  // Sets initial state
+  getInitialState: function(){
+      return {state1 : 'Life', state2: "white", state3: "olo"};
   },
-  onClickButton: function() {
-    var nfails = this.state.failed === false ? this.state.fails + 1 : this.state.fails;
-    this.setState({ failed: !this.state.failed, fails : nfails });
+  //Sets initial props (overriden by anything passed from parent component call)
+  getDefaultProps: function() {
+      return { lifeIs: 'Cycle'};
   },
-  dragStart : function(e){
-    //Bind the target as dragged item
-    console.log("drag start");
-    this.dragged = e.currentTarget;
-    console.log(e.currentTarget);
-    
-    this.dragged.style.backgroundColor = "lightsalmon";
-    e.dataTransfer.effectAllowed = 'move';
+  // Will be executed before the components mount
+  componentWillMount: function() {
+      console.log('componentWillMount', arguments);
+  },
+  // Will be executed after the component mount
+  componentDidMount: function(prevProps, prevState) {
+      console.log('componentDidMount', arguments);  
+      var self = this;
 
-    // Firefox requires calling dataTransfer.setData
-    // for the drag to properly work
-    e.dataTransfer.setData("text/html", e.currentTarget);
-  },
-  dragEnd : function(e){
-    console.log("dragEnd");
-    console.log(this.dragged);
-    this.dragged.style.display = "block";
-    this.dragged.style.backgroundColor = "white";
-    this.dragged.parentNode.removeChild(placeholder);
+      setTimeout(function(){
+        self.setState({state1 : 'Life has been...'});
+      }, 2500);
 
-    // Update state
-    var data = this.state.data;
-    var from = Number(this.dragged.dataset.id);
-    var to = Number(this.over.dataset.id);
-    if(from < to) to--;
-    data.splice(to, 0, data.splice(from, 1)[0]);
-    this.setState({data: data});
+      setTimeout(function(){
+        ReactDOM.render(<Lifecycle lifeIs="Recycle"/>, document.querySelector('#app'));
+      }, 1500);
+
   },
-  dragOver : function(e){
-    e.preventDefault();
-    console.log("dragOver");
-    console.log(this.dragged);
-    this.dragged.style.display = "none";
-    console.log("Over Target");
-    console.log(e.target);
-    if(e.target.className == "placeholder" || e.target.className.indexOf("user-component") == -1) return;
-    this.over = e.target;
-    e.target.parentNode.insertBefore(placeholder, e.target);
+  componentWillReceiveProps: function() {
+    console.log('componentWillReceiveProps', arguments);
   },
-  render:function(){
+  shouldComponentUpdate: function() {
+        //var go = confirm("Are you sure you want to change '"+this.state.state1+"' for '"+arguments[1].state1+"' ??");
+        var go  = true;
+        if(go){
+          return true;
+        }else{
+          return false;
+        }
+        // console.log(this.state.state1);
+        // console.log('shouldComponentUpdate', arguments);
+        return true;
+  },
+  componentWillUpdate: function() {
+        console.log('componentWillUpdate', arguments);
+  },
+  componentDidUpdate: function() {
+        console.log('componentDidUpdate', arguments);
+  },
+  hover: function(){
+    console.log("hover");
+    this.setState({state1: "Touching Life is not permitted!", state2: "red"});
+    this.refs.olo.innerHTML = "NOT OLO!!";
+    //You can do this with Jquery like : $(this.refs.olo).hide();
+  },
+  hoverEnd: function(){
+    console.log("hoverEnd");
+    this.setState({state1: "Life", state2: "white"});
+  },
+  render : function(){
+    var backgroundColor = {backgroundColor : this.state.state2};
+    var message = this.state.state3; 
     return (
-    <div className="BundleComponent">
-      <FailedAttempts fails={this.state.fails} />
-      <InstallNode onClick={this.onClickButton} failed={this.state.failed}/>
-      <span className="number-of-fails">{this.state.fails}</span>
-      <FallenHeroGallery 
-        onDragOver={this.dragOver}
-        draggeable="true"
-        onDragEnd={this.dragEnd}
-        onDragStart={this.dragStart}
-        data={data} 
-      />
-    </div>
+      <ul onMouseEnter={this.hover} onMouseLeave={this.hoverEnd} style={backgroundColor}>
+        <li>
+          {this.state.state1}
+        </li>
+        <li>{this.props.lifeIs}</li>
+        <span ref="olo">{message}</span>
+      </ul>
     );
   }
 });
 
-var placeholder = document.createElement("li");
-placeholder.className = "placeholder";
 
-ReactDOM.render(<BundleComponent name="Ninja Parent Name Here" fails="0"/>, document.querySelector("#app"));
-
+ReactDOM.render(<Lifecycle lifeIs="Cycle" />, document.querySelector('#app'));
